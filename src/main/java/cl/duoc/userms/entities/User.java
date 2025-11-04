@@ -15,6 +15,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -63,9 +67,9 @@ public class User {
     private String lastName;
 
     @Column(name = "Password", nullable = false)
-    @JsonIgnore
+    @JsonProperty(access = Access.WRITE_ONLY)
     @NotBlank(message = "Password is required")
-    @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters")
+    @Size(min = 8, max = 60, message = "Password must be between 8 and 60 characters")
     private String password;
 
     @Column(name = "Email", nullable = false, unique = true)
@@ -80,7 +84,8 @@ public class User {
     private String phone;
 
     @Column(name = "BirthDate")
-    @NotBlank(message = "Birth date is required")
+    @NotNull(message = "Birth date is required")
+    @Past(message = "Birth date must be in the past")
     private LocalDate birthDate;
 
     @Column(name = "Address")

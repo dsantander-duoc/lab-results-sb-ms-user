@@ -1,4 +1,4 @@
-package cl.duoc.userms.entities;
+package cl.duoc.userms.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
